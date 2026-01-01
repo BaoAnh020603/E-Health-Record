@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Điều Khiển Bộ Y Tế - Ministry of Health Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #4CAF50;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card.emergency {
+            border-left-color: #f44336;
+        }
+
+        .card.warning {
+            border-left-color: #ff9800;
+        }
+
+        .card.info {
+            border-left-color: #2196F3;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-value {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-approved {
+            background: #e8f5e8;
+            color: #4CAF50;
+        }
+
+        .status-pending {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .status-emergency {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .review-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #ddd;
+        }
+
+        .review-item.emergency {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+
+        .review-item h4 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1em;
+        }
+
+        .review-item p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn.approve {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .btn.reject {
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px;
+            border-left: 4px solid #f44336;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Bảng Điều Khiển Bộ Y Tế</h1>
+            <p>Ministry of Health - Clinical AI Validation Dashboard</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <h3>Đang tải dữ liệu... / Loading data...</h3>
+        </div>
+
+        <div id="error" class="error" style="display: none;">
+            <h3>Lỗi kết nối / Connection Error</h3>
+            <p>Không thể kết nối đến hệ thống. Vui lòng thử lại sau.</p>
+        </div>
+
+        <div id="dashboard" class="dashboard-grid" style="display: none;">
+            <!-- Dashboard content will be loaded here -->
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="loadDashboard()" title="Làm mới / Refresh">
+        🔄
+    </button>
+
+    <script>
+        let dashboardData = null;
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('error').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'none';
+
+                const response = await fetch('/api/ministry-integration/dashboard-data');
+                const result = await response.json();
+
+                if (result.success) {
+                    dashboardData = result.dashboard;
+                    renderDashboard();
+                } else {
+                    throw new Error(result.error || 'Failed to load dashboard');
+                }
+            } catch (error) {
+                console.error('Dashboard load error:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+
+        // Render dashboard
+        function renderDashboard() {
+            const dashboard = document.getElementById('dashboard');
+            
+            dashboard.innerHTML = `
+                <!-- Summary Cards -->
+                <div class="card info">
+                    <h3>📊 Tổng Quan / Overview</h3>
+                    <div class="card-content">
+                        <div class="metric">
+                            <span>Đang chờ duyệt / Pending Reviews:</span>
+                            <span class="metric-value">${dashboardData.summary.total_pending}</span>
+                        </div>
+                        <div class="metric">
+                            <span>Trường hợp khẩn cấp / Emergency Cases:</span>
+                            <span class="metric-value">${dashboardData.summary.total_emergency}</span>
+                        </div>
+                        <div class="metric">
+                            <span>Điểm tuân thủ trung bình / Avg Compliance:</span>
+                            <span class="metric-value">${dashboardData.summary.avg_compliance_score}%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Cases -->
+                <div class="card emergency">
+                    <h3>🚨 Trường Hợp Khẩn Cấp / Emergency Cases</h3>
+                    <div class="card-content">
+                        ${dashboardData.emergency_cases.count === 0 
+                            ? '<p>Không có trường hợp khẩn cấp / No emergency cases</p>'
+                            : dashboardData.emergency_cases.items.map(item => `
+                                <div class="review-item emergency">
+                                    <h4>ICD-10: ${item.icd10_code}</h4>
+                                    <p>Độ tin cậy AI: ${(item.ai_confidence * 100).toFixed(1)}%</p>
+                                    <p>Ngày gửi: ${new Date(item.submission_date).toLocaleDateString('vi-VN')}</p>
+                                    <button class="btn approve" onclick="reviewCase('${item.id}', 'approved')">Duyệt / Approve</button>
+                                    <button class="btn reject" onclick="reviewCase('${item.id}', 'rejected')">Từ chối / Reject</button>
+                                </div>
+                            `).join('')
+                        }
+                    </div>
+                </div>
+
+                <!-- Pending Reviews -->
+                <div class="card warning">
+                    <h3>⏳ Đang Chờ Duyệt / Pending Reviews</h3>
+                    <div class="card-content">
+                        ${dashboardData.pending_reviews.count === 0 
+                            ? '<p>Không có đánh giá đang chờ / No pending reviews</p>'
+                            : dashboardData.pending_reviews.items.slice(0, 5).map(item => `
+                                <div class="review-item">
+                                    <h4>ICD-10: ${item.icd10_code}</h4>
+                                    <p>Độ tin cậy AI: ${(item.ai_confidence * 100).toFixed(1)}%</p>
+                                    <p>Mức độ ưu tiên: ${item.priority_level}</p>
+                                    <p>Ngày gửi: ${new Date(item.submission_date).toLocaleDateString('vi-VN')}</p>
+                                    <button class="btn approve" onclick="reviewCase('${item.id}', 'approved')">Duyệt / Approve</button>
+                                    <button class="btn reject" onclick="reviewCase('${item.id}', 'rejected')">Từ chối / Reject</button>
+                                </div>
+                            `).join('')
+                        }
+                        ${dashboardData.pending_reviews.count > 5 
+                            ? `<p><strong>Và ${dashboardData.pending_reviews.count - 5} trường hợp khác...</strong></p>`
+                            : ''
+                        }
+                    </div>
+                </div>
+
+                <!-- Recent Approvals -->
+                <div class="card">
+                    <h3>✅ Đã Duyệt Gần Đây / Recent Approvals</h3>
+                    <div class="card-content">
+                        ${dashboardData.recent_approvals.count === 0 
+                            ? '<p>Chưa có phê duyệt nào / No recent approvals</p>'
+                            : dashboardData.recent_approvals.items.map(item => `
+                                <div class="review-item">
+                                    <h4>ICD-10: ${item.icd10_code}</h4>
+                                    <p>Điểm tuân thủ: ${item.compliance_score || 'N/A'}%</p>
+                                    <p>Ngày duyệt: ${new Date(item.ministry_approval_date).toLocaleDateString('vi-VN')}</p>
+                                    <span class="status-badge status-approved">Đã duyệt / Approved</span>
+                                </div>
+                            `).join('')
+                        }
+                    </div>
+                </div>
+
+                <!-- Compliance Metrics -->
+                <div class="card info">
+                    <h3>📈 Chỉ Số Tuân Thủ / Compliance Metrics</h3>
+                    <div class="card-content">
+                        ${dashboardData.compliance_metrics.length === 0 
+                            ? '<p>Chưa có dữ liệu chỉ số / No metrics data</p>'
+                            : dashboardData.compliance_metrics.map(metric => `
+                                <div class="metric">
+                                    <span>${metric.metric_name}:</span>
+                                    <span class="metric-value">${metric.metric_value}${metric.metric_unit || ''}</span>
+                                </div>
+                            `).join('')
+                        }
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="card">
+                    <h3>🔧 Trạng Thái Hệ Thống / System Status</h3>
+                    <div class="card-content">
+                        <div class="metric">
+                            <span>Kết nối cơ sở dữ liệu / Database:</span>
+                            <span class="status-badge status-approved">Hoạt động / Online</span>
+                        </div>
+                        <div class="metric">
+                            <span>Dịch vụ AI / AI Services:</span>
+                            <span class="status-badge status-approved">Hoạt động / Online</span>
+                        </div>
+                        <div class="metric">
+                            <span>Giao thức khẩn cấp / Emergency Protocols:</span>
+                            <span class="status-badge status-approved">Kích hoạt / Active</span>
+                        </div>
+                        <div class="metric">
+                            <span>Cập nhật cuối / Last Updated:</span>
+                            <span class="metric-value">${new Date().toLocaleString('vi-VN')}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'grid';
+        }
+
+        // Review case
+        async function reviewCase(reviewId, decision) {
+            try {
+                const notes = prompt(`Nhập ghi chú cho quyết định ${decision} / Enter notes for ${decision} decision:`);
+                if (notes === null) return; // User cancelled
+
+                const complianceScore = decision === 'approved' 
+                    ? parseInt(prompt('Nhập điểm tuân thủ (0-100) / Enter compliance score (0-100):', '85') || '85')
+                    : 0;
+
+                const response = await fetch(`/api/ministry-integration/review-decision/${reviewId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        decision,
+                        notes,
+                        complianceScore
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(`Quyết định đã được cập nhật / Decision updated: ${decision}`);
+                    loadDashboard(); // Reload dashboard
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('Review error:', error);
+                alert(`Lỗi cập nhật quyết định / Error updating decision: ${error.message}`);
+            }
+        }
+
+        // Auto-refresh every 5 minutes
+        setInterval(loadDashboard, 5 * 60 * 1000);
+
+        // Load dashboard on page load
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

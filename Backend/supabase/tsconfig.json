@@ -1,0 +1,15 @@
+// supabase/functions/tsconfig.json (Tạo file mới)
+{
+  "extends": "../../tsconfig.json", // Kế thừa cấu hình chung
+  "compilerOptions": {
+    "lib": [
+      "esnext",
+      "dom" 
+      // Không cần thêm deno.ns vì nó được tham chiếu trong code
+    ]
+  },
+  "include": [
+    "./**/*.ts",
+    "../../node_modules/@types/deno-typescript/lib/deno.ns.d.ts" // Đây là giả định, gói này có thể không có sẵn qua npm
+  ]
+}

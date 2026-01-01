@@ -1,0 +1,153 @@
+{
+  "success": true,
+  "data": {
+    "type": "medication",
+    "medications": [
+      {
+        "name": "Biosubtyl-II10",
+        "dosage": "1.00 Viên, 1 Viên",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "1 . Biosubtyl-II10^7 - 10^8 CFU 1.00 Viên ----------------------------------------------------------------------------------------------------- 1 Viên"
+      },
+      {
+        "name": "Rotundin",
+        "dosage": "6060mg, 1.00 Viên, 1 Viên",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "3 . Rotundin 6060mg 1.00 Viên ----------------------------------------------------------------------------------------------------- 1 Viên"
+      },
+      {
+        "name": "Siutamid Injection10mg",
+        "dosage": "10mg, 2ml, 1.00 Ống, 1 Ống",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "4 . Siutamid Injection10mg/2ml 1.00 Ống ----------------------------------------------------------------------------------------------------- 1 Ống"
+      },
+      {
+        "name": "Parazacol",
+        "dosage": "75010mg, 75ml, 1.00 Chai, 1 Lọ",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "5 . Parazacol 75010mg/ml, 75ml 1.00 Chai Thay băng, rút sonde tiểu Mời khám PHCN ----------------------------------------------------------------------------------------------------- 1 Lọ"
+      },
+      {
+        "name": "Nefopam Medisol",
+        "dosage": "20mg, 2ml, 20mg, 2ml, 1.00 Ống, 1 Ống",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "8 . Nefopam Medisol 20mg/2ml20mg/2ml 1.00 Ống Thay băng, rút sonde tiểu Mời khám PHCN ----------------------------------------------------------------------------------------------------- 1 Ống"
+      },
+      {
+        "name": "Atorpa-",
+        "dosage": "1040mg, 10mg, 1.00 Viên, 1 Viên",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "10 . Atorpa- E 40/1040mg + 10mg 1.00 Viên Thay băng, rút sonde tiểu Mời khám PHCN ----------------------------------------------------------------------------------------------------- 1 Viên"
+      },
+      {
+        "name": "Exforge5mg",
+        "dosage": "5mg, 80mg, 1.00 Viên, 1 Viên",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "11 . Exforge5mg + 80mg 1.00 Viên Thay băng, rút sonde tiểu Mời khám PHCN ----------------------------------------------------------------------------------------------------- 1 Viên"
+      },
+      {
+        "name": "Topraz",
+        "dosage": "2020mg, 2.00 Viên, 2 Viên",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "12 . Topraz 2020mg 2.00 Viên Thay băng, rút sonde tiểu Mời khám PHCN ----------------------------------------------------------------------------------------------------- 2 Viên"
+      },
+      {
+        "name": "Kernadol",
+        "dosage": "650mg, 650mg, 1 Viên, 4 Viên, 28 Viên",
+        "frequency": "4 lần/ngày",
+        "timing": [],
+        "duration": "7 ngày",
+        "instructions": null,
+        "rawText": "49 . Kernadol 650mg Tablets650mg 1 Viên/lần * 4 lần/ngày * 7 ngày [4 Viên/ngày] Uống thuốc theo toa, hết thuốc tái khám, thay băng hàng ngày, cắt chỉ sau 7 ngày ----------------------------------------------------------------------------------------------------- 28 Viên"
+      },
+      {
+        "name": "Katrypsin Fort8",
+        "dosage": "1 Viên, 3 Viên, 21 Viên",
+        "frequency": "3 lần/ngày",
+        "timing": [],
+        "duration": "7 ngày",
+        "instructions": null,
+        "rawText": "50 . Katrypsin Fort8.400IU 1 Viên/lần * 3 lần/ngày * 7 ngày [3 Viên/ngày] Uống thuốc theo toa, hết thuốc tái khám, thay băng hàng ngày, cắt chỉ sau 7 ngày ----------------------------------------------------------------------------------------------------- 21 Viên"
+      },
+      {
+        "name": "Amiparen",
+        "dosage": "200ml, 2.00 Chai, 2 Chai",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "59 . Amiparen 10%10%; 200ml 2.00 Chai ----------------------------------------------------------------------------------------------------- 2 Chai/ Túi"
+      },
+      {
+        "name": "Naptogast",
+        "dosage": "2020mg, 2.00 Viên, 2 Viên",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "71 . Naptogast 2020mg 2.00 Viên ----------------------------------------------------------------------------------------------------- 2 Viên"
+      },
+      {
+        "name": "Kalium",
+        "dosage": "500mg, 1.00 Viên, 1 Viên",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "77 . Kalium chloratum biomedica500mg 1.00 Viên ----------------------------------------------------------------------------------------------------- 1 Viên"
+      },
+      {
+        "name": "Zolifast",
+        "dosage": "20002g, 1.00 Lọ, 8g, 1 Lọ",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null,
+        "rawText": "98 . Zolifast 20002g 1.00 Lọ Chuyển mổ lúc 8g30 ----------------------------------------------------------------------------------------------------- 1 Lọ"
+      }
+    ],
+    "appointments": [
+      {
+        "date": null,
+        "time": "14:56",
+        "doctor": null,
+        "location": null,
+        "notes": "107 . Topraz 2020mg 2.00 Viên ----------------------------------------------------------------------------------------------------- 2 Viên Ngày 04 tháng 07 năm 2025 Bác sĩ Tái khám ngày: sign Lời dặn: Uống thuốc theo toa, hết thuốc tái khám, thay băng hàng ngày, cắt chỉ sau 7 ngày Tái khám chuyên khoa: Vui lòng lĩnh thuốc BHYT trong ngày. Đề nghị ngưng sử dụng thuốc và báo ngay cho bác sỹ nếu có bất kỳ triệu chứng bất thường nào. Đơn thuốc này chỉ có giá trị trong thời gian bác sỹ chỉ định, không tự ý sử dụng thêm.. Tái khám vui lòng mang theo đơn thuốc và kết quả xét nghiệm, X quang, Siêu âm.... Ngày in:04 07 2025 14:56:41"
+      }
+    ],
+    "instructions": [
+      "107 . Topraz 2020mg 2.00 Viên ----------------------------------------------------------------------------------------------------- 2 Viên Ngày 04 tháng 07 năm 2025 Bác sĩ Tái khám ngày: sign Lời dặn: Uống thuốc theo toa, hết thuốc tái khám, thay băng hàng ngày, cắt chỉ sau 7 ngày Tái khám chuyên khoa: Vui lòng lĩnh thuốc BHYT trong ngày. Đề nghị ngưng sử dụng thuốc và báo ngay cho bác sỹ nếu có bất kỳ triệu chứng bất thường nào. Đơn thuốc này chỉ có giá trị trong thời gian bác sỹ chỉ định, không tự ý sử dụng thêm.. Tái khám vui lòng mang theo đơn thuốc và kết quả xét nghiệm, X quang, Siêu âm.... Ngày in:04 07 2025 14:56:41"
+    ],
+    "summary": "Tìm thấy 14 loại thuốc, 1 lịch khám, 1 lời dặn"
+  },
+  "stats": {
+    "processingTime": 6,
+    "medicationCount": 14,
+    "appointmentCount": 1,
+    "instructionCount": 1
+  }
+}

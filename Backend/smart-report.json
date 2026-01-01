@@ -1,0 +1,220 @@
+{
+  "analysis": {
+    "summary": {
+      "totalMedications": 14,
+      "totalAppointments": 2,
+      "totalInstructions": 1,
+      "totalReminders": 206,
+      "dateRange": {
+        "start": "2025-12-30",
+        "end": "2026-01-05"
+      },
+      "processingTime": "2025-12-30T03:29:46.735Z"
+    },
+    "insights": [
+      {
+        "type": "medication_count",
+        "level": "warning",
+        "title": "Số lượng thuốc nhiều",
+        "message": "Bạn đang dùng 14 loại thuốc. Hãy chú ý uống đúng giờ và theo dõi tác dụng phụ.",
+        "icon": "⚠️"
+      },
+      {
+        "type": "high_frequency",
+        "level": "info",
+        "title": "Thuốc uống nhiều lần/ngày",
+        "message": "Có 2 loại thuốc cần uống 3-4 lần/ngày. Đặt nhắc nhở để không quên!",
+        "icon": "⏰",
+        "details": {
+          "count": 2,
+          "medications": [
+            "Kernadol",
+            "Katrypsin"
+          ]
+        }
+      },
+      {
+        "type": "appointment",
+        "level": "warning",
+        "title": "Lịch tái khám sắp tới",
+        "message": "Bạn có lịch tái khám vào 2025-12-30 (còn 0 ngày). Nhớ chuẩn bị đầy đủ giấy tờ!",
+        "icon": "📅",
+        "details": {
+          "date": "2025-12-30",
+          "daysUntil": 0,
+          "appointments": [
+            {
+              "date": "2025-12-30",
+              "time": "08:00",
+              "type": "Tái khám ngày",
+              "notes": "Tái khám đúng thời gian và ngày theo,quy định bác sĩ"
+            }
+          ]
+        }
+      },
+      {
+        "type": "treatment_duration",
+        "level": "info",
+        "title": "Thời gian điều trị",
+        "message": "Liệu trình điều trị kéo dài 7 ngày. Hãy kiên trì uống thuốc đầy đủ!",
+        "icon": "📆",
+        "details": {
+          "maxDuration": 7,
+          "medicationsCount": 5
+        }
+      }
+    ],
+    "warnings": [
+      {
+        "type": "missing_appointment_time",
+        "level": "warning",
+        "title": "Lịch khám thiếu thông tin",
+        "message": "1 lịch khám chưa có ngày giờ cụ thể. Hãy liên hệ bệnh viện để xác nhận!",
+        "icon": "⚠️",
+        "details": {
+          "appointments": [
+            "Tái khám chuyên khoa"
+          ]
+        }
+      }
+    ],
+    "recommendations": [
+      {
+        "type": "set_reminders",
+        "priority": "high",
+        "title": "Đặt nhắc nhở",
+        "message": "Bật thông báo để nhận nhắc nhở uống thuốc và tái khám đúng giờ.",
+        "action": "enable_notifications",
+        "icon": "🔔"
+      },
+      {
+        "type": "prepare_appointment",
+        "priority": "high",
+        "title": "Chuẩn bị tái khám",
+        "message": "Mang theo đơn thuốc, kết quả xét nghiệm, X-quang khi đi tái khám.",
+        "action": "view_appointment_checklist",
+        "icon": "📋"
+      },
+      {
+        "type": "track_side_effects",
+        "priority": "medium",
+        "title": "Theo dõi tác dụng phụ",
+        "message": "Ghi chú lại nếu có triệu chứng bất thường sau khi uống thuốc.",
+        "action": "open_health_diary",
+        "icon": "📝"
+      },
+      {
+        "type": "save_prescription",
+        "priority": "medium",
+        "title": "Lưu trữ đơn thuốc",
+        "message": "Lưu đơn thuốc vào hồ sơ sức khỏe để dễ tra cứu sau này.",
+        "action": "save_to_records",
+        "icon": "💾"
+      }
+    ],
+    "options": {
+      "viewOptions": [
+        {
+          "id": "summary",
+          "label": "Xem tóm tắt",
+          "description": "Thông tin tổng quan về thuốc và lịch khám",
+          "icon": "📊",
+          "dataSize": "small"
+        },
+        {
+          "id": "medications",
+          "label": "Danh sách thuốc",
+          "description": "14 loại thuốc",
+          "icon": "💊",
+          "dataSize": "medium",
+          "count": 14
+        },
+        {
+          "id": "appointments",
+          "label": "Lịch tái khám",
+          "description": "2 lịch khám",
+          "icon": "📅",
+          "dataSize": "small",
+          "count": 2
+        },
+        {
+          "id": "reminders_today",
+          "label": "Nhắc nhở hôm nay",
+          "description": "Lịch uống thuốc và tái khám hôm nay",
+          "icon": "🔔",
+          "dataSize": "small"
+        },
+        {
+          "id": "reminders_week",
+          "label": "Nhắc nhở 7 ngày tới",
+          "description": "206 nhắc nhở",
+          "icon": "📆",
+          "dataSize": "large",
+          "count": 206
+        },
+        {
+          "id": "calendar",
+          "label": "Lịch uống thuốc",
+          "description": "Xem lịch theo dạng calendar",
+          "icon": "📅",
+          "dataSize": "medium"
+        },
+        {
+          "id": "instructions",
+          "label": "Lời dặn bác sĩ",
+          "description": "1 lời dặn",
+          "icon": "📝",
+          "dataSize": "small",
+          "count": 1
+        }
+      ],
+      "exportOptions": [
+        {
+          "id": "export_pdf",
+          "label": "Xuất PDF",
+          "description": "Tải báo cáo dạng PDF",
+          "icon": "📄",
+          "format": "pdf"
+        },
+        {
+          "id": "export_json",
+          "label": "Xuất JSON",
+          "description": "Tải dữ liệu dạng JSON",
+          "icon": "📋",
+          "format": "json"
+        },
+        {
+          "id": "share",
+          "label": "Chia sẻ",
+          "description": "Chia sẻ với bác sĩ hoặc người thân",
+          "icon": "📤",
+          "format": "share"
+        }
+      ],
+      "actionOptions": [
+        {
+          "id": "enable_notifications",
+          "label": "Bật thông báo",
+          "description": "Nhận nhắc nhở uống thuốc",
+          "icon": "🔔",
+          "action": "enable_notifications"
+        },
+        {
+          "id": "add_to_calendar",
+          "label": "Thêm vào lịch",
+          "description": "Đồng bộ với Google Calendar",
+          "icon": "📅",
+          "action": "sync_calendar"
+        },
+        {
+          "id": "set_alarm",
+          "label": "Đặt báo thức",
+          "description": "Tạo báo thức cho từng lần uống thuốc",
+          "icon": "⏰",
+          "action": "create_alarms"
+        }
+      ]
+    }
+  },
+  "timestamp": "2025-12-30T03:33:10.634Z"
+}

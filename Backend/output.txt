@@ -1,0 +1,123 @@
+[dotenv@17.2.3] injecting env (13) from .env.local -- tip: ⚙️  write to custom object with { processEnv: myObject }
+🚀 PDF Parser Test (Xử lý từng item)
+
+======================================================================
+
+📄 File: C:\Users\ADMIN\Desktop\Downloads\DonThuoc_25.007367.pdf
+
+🔍 Bắt đầu phân tích PDF (xử lý từng item)...
+📄 Đọc PDF items...
+Warning: fetchStandardFontData: failed to fetch file "FoxitSerifBold.pfb" with "UnknownErrorException: The standard font "baseUrl" parameter must be specified, ensure that the "standardFontDataUrl" API parameter is provided.".
+Warning: fetchStandardFontData: failed to fetch file "FoxitSerifBoldItalic.pfb" with "UnknownErrorException: The standard font "baseUrl" parameter must be specified, ensure that the "standardFontDataUrl" API parameter is provided.".
+Warning: fetchStandardFontData: failed to fetch file "FoxitSerif.pfb" with "UnknownErrorException: The standard font "baseUrl" parameter must be specified, ensure that the "standardFontDataUrl" API parameter is provided.".
+Warning: fetchStandardFontData: failed to fetch file "FoxitSerifItalic.pfb" with "UnknownErrorException: The standard font "baseUrl" parameter must be specified, ensure that the "standardFontDataUrl" API parameter is provided.".
+   ✅ Đọc được 885 items từ 8 trang
+💊 Nhóm medications...
+   ✅ Tìm thấy 107 medications
+�  Trích xuất lời dặn...
+   ✅ Tìm thấy 1 lời dặn
+📅 Trích xuất lịch khám...
+   ✅ Tìm thấy 2 lịch khám
+
+✅ Hoàn thành trong 676ms
+======================================================================
+
+✅ PHÂN TÍCH THÀNH CÔNG!
+
+======================================================================
+
+📊 THỐNG KÊ:
+   ⏱️  Thời gian: 676ms
+   📄 Tổng items: 885
+   💊 Thuốc: 14 loại
+   📅 Lịch khám: 2
+   📝 Lời dặn: 1
+
+
+💊 THUỐC (14 loại):
+----------------------------------------------------------------------
+
+1. Biosubtyl-II
+   📦 Liều lượng: 1.00 Viên, 1 Viên, 2 Viên
+   ⏰ Tần suất: 2 lần/ngày
+   📅 Thời hạn: 7 ngày
+
+2. Rotundin
+   📦 Liều lượng: 6060mg, 1.00 Viên, 1 Viên
+   ⏰ Tần suất: 1 lần/ngày
+   📅 Thời hạn: 7 ngày
+
+3. Siutamid
+   📦 Liều lượng: 10mg, 2ml, 1.00 Ống
+
+4. Parazacol
+   📦 Liều lượng: 75010mg, 75ml, 1.00 Chai
+
+5. Nefopam
+   📦 Liều lượng: 20mg, 2ml, 1.00 Ống
+   🕐 Thời gian: sáng, chiều
+
+6. Atorpa
+   📦 Liều lượng: 1040mg, 10mg, 1.00 Viên
+
+7. Exforge
+   📦 Liều lượng: 5mg, 80mg, 1.00 Viên
+
+8. Topraz
+   📦 Liều lượng: 2020mg, 2.00 Viên, 2 Viên
+   ⏰ Tần suất: 1 lần/ngày
+   📅 Thời hạn: 7 ngày
+
+9. Kernadol
+   📦 Liều lượng: 650mg, 1 Viên, 4 Viên
+   ⏰ Tần suất: 4 lần/ngày
+   📅 Thời hạn: 7 ngày
+
+10. Katrypsin
+   📦 Liều lượng: 1 Viên, 3 Viên
+   ⏰ Tần suất: 3 lần/ngày
+   📅 Thời hạn: 7 ngày
+
+11. Amiparen
+   📦 Liều lượng: 200ml, 2.00 Chai, 1.00 Chai
+
+12. Naptogast
+   📦 Liều lượng: 2020mg, 2.00 Viên
+
+13. Kalium
+   📦 Liều lượng: 500mg, 1.00 Viên
+
+14. Zolifast
+   📦 Liều lượng: 20002g, 1.00 Lọ, 8g
+
+
+📅 LỊCH TÁI KHÁM (2):
+----------------------------------------------------------------------
+
+1. Tái khám
+   🕐 Giờ: 14:56
+
+2. Tái khám chuyên khoa
+   🕐 Giờ: 14:56
+
+
+📝 LỜI DẶN BÁC SĨ (1):
+----------------------------------------------------------------------
+
+1. Uống thuốc theo toa, hết thuốc tái khám, thay băng hàng ngày, cắt chỉ sau 7 ngày
+
+
+📋 TÓM TẮT:
+----------------------------------------------------------------------
+Tìm thấy 14 loại thuốc, 2 lịch khám, 1 lời dặn
+
+💾 Đã lưu kết quả vào: ./pdf-parser-result.json
+
+
+📊 SO SÁNH:
+----------------------------------------------------------------------
+PDF Parser (mới):  14 thuốc
+Local Parser (cũ): 14 thuốc
+Cải thiện:         +0 thuốc
+
+======================================================================

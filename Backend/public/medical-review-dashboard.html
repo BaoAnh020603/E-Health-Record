@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Review Dashboard - Hệ thống Xác thực Y tế</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #f8f9ff;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .quick-actions {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .action-button {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .action-button:hover {
+            background: #5a6fd8;
+        }
+
+        .action-button.secondary {
+            background: #6c757d;
+        }
+
+        .action-button.danger {
+            background: #dc3545;
+        }
+
+        .review-queue {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .queue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .queue-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .priority-filter {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .review-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: box-shadow 0.3s;
+        }
+
+        .review-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .review-item.urgent {
+            border-left: 4px solid #dc3545;
+        }
+
+        .review-item.high {
+            border-left: 4px solid #fd7e14;
+        }
+
+        .review-item.normal {
+            border-left: 4px solid #28a745;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .disease-info {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .priority-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-urgent {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .priority-high {
+            background: #ffeaa7;
+            color: #856404;
+        }
+
+        .priority-normal {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .symptoms-list {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .risk-indicator {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .risk-low { background: #d4edda; color: #155724; }
+        .risk-moderate { background: #fff3cd; color: #856404; }
+        .risk-high { background: #f8d7da; color: #721c24; }
+        .risk-critical { background: #f5c6cb; color: #491217; }
+
+        .review-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .review-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .btn-approve {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-modify {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-details {
+            background: #6c757d;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏥 Medical Review Dashboard</h1>
+        <p>Hệ thống Xác thực Y tế - Đánh giá và Phê duyệt Dự đoán AI</p>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            <div class="stats-panel">
+                <h3>📊 Thống kê</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="pendingCount">-</div>
+                        <div class="stat-label">Chờ xem xét</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="approvedCount">-</div>
+                        <div class="stat-label">Đã phê duyệt</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="rejectedCount">-</div>
+                        <div class="stat-label">Đã từ chối</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgReviewTime">-</div>
+                        <div class="stat-label">Thời gian TB (phút)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h3>⚡ Thao tác nhanh</h3>
+                <button class="action-button" onclick="refreshQueue()">🔄 Làm mới hàng đợi</button>
+                <button class="action-button secondary" onclick="showKnowledgeBase()">📚 Cơ sở tri thức</button>
+                <button class="action-button secondary" onclick="showAuditLog()">📋 Nhật ký kiểm toán</button>
+                <button class="action-button danger" onclick="showEmergencyProtocols()">🚨 Quy trình khẩn cấp</button>
+            </div>
+        </div>
+
+        <div class="review-queue">
+            <div class="queue-header">
+                <h3 class="queue-title">📋 Hàng đợi xem xét</h3>
+                <div class="priority-filter">
+                    <button class="filter-btn active" data-priority="all">Tất cả</button>
+                    <button class="filter-btn" data-priority="urgent">Khẩn cấp</button>
+                    <button class="filter-btn" data-priority="high">Cao</button>
+                    <button class="filter-btn" data-priority="normal">Bình thường</button>
+                </div>
+            </div>
+
+            <div id="reviewQueue">
+                <div class="loading">Đang tải hàng đợi xem xét...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📝 Xem xét dự đoán</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <div id="reviewDetails"></div>
+            
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label class="form-label">Quyết định:</label>
+                    <select class="form-control" id="reviewDecision" required>
+                        <option value="">Chọn quyết định...</option>
+                        <option value="approved">Phê duyệt</option>
+                        <option value="rejected">Từ chối</option>
+                        <option value="needs_modification">Cần chỉnh sửa</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Ghi chú chuyên môn:</label>
+                    <textarea class="form-control" id="reviewNotes" placeholder="Nhập ghi chú chi tiết về quyết định của bạn..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Khuyến nghị bổ sung (tùy chọn):</label>
+                    <textarea class="form-control" id="additionalRecommendations" placeholder="Các khuyến nghị bổ sung cho bệnh nhân..."></textarea>
+                </div>
+                
+                <div class="review-actions">
+                    <button type="submit" class="action-button">💾 Lưu đánh giá</button>
+                    <button type="button" class="action-button secondary" onclick="closeModal()">❌ Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentReviews = [];
+        let currentFilter = 'all';
+        let currentReviewId = null;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadReviewQueue();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Priority filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.priority;
+                    filterReviews();
+                });
+            });
+
+            // Review form submission
+            document.getElementById('reviewForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitReview();
+            });
+        }
+
+        async function loadStats() {
+            try {
+                // Mock stats for demo - replace with real API call
+                const stats = {
+                    pendingCount: 12,
+                    approvedCount: 45,
+                    rejectedCount: 3,
+                    avgReviewTime: 15
+                };
+
+                document.getElementById('pendingCount').textContent = stats.pendingCount;
+                document.getElementById('approvedCount').textContent = stats.approvedCount;
+                document.getElementById('rejectedCount').textContent = stats.rejectedCount;
+                document.getElementById('avgReviewTime').textContent = stats.avgReviewTime;
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        async function loadReviewQueue() {
+            try {
+                document.getElementById('reviewQueue').innerHTML = '<div class="loading">Đang tải hàng đợi xem xét...</div>';
+
+                // Mock data for demo - replace with real API call
+                const mockReviews = [
+                    {
+                        id: '1',
+                        priority: 'urgent',
+                        ai_predictions_validated: {
+                            disease_code: 'I21',
+                            symptoms: ['chest pain', 'shortness of breath', 'nausea'],
+                            risk_level: 'critical',
+                            requires_immediate_care: true,
+                            created_at: new Date().toISOString(),
+                            prediction_data: {
+                                flareUpProbability: 85,
+                                diseaseName: 'Nhồi máu cơ tim cấp'
+                            }
+                        }
+                    },
+                    {
+                        id: '2',
+                        priority: 'high',
+                        ai_predictions_validated: {
+                            disease_code: 'J45',
+                            symptoms: ['wheezing', 'cough', 'chest tightness'],
+                            risk_level: 'high',
+                            requires_immediate_care: false,
+                            created_at: new Date().toISOString(),
+                            prediction_data: {
+                                flareUpProbability: 65,
+                                diseaseName: 'Hen phế quản'
+                            }
+                        }
+                    },
+                    {
+                        id: '3',
+                        priority: 'normal',
+                        ai_predictions_validated: {
+                            disease_code: 'E11',
+                            symptoms: ['fatigue', 'increased thirst'],
+                            risk_level: 'moderate',
+                            requires_immediate_care: false,
+                            created_at: new Date().toISOString(),
+                            prediction_data: {
+                                flareUpProbability: 40,
+                                diseaseName: 'Đái tháo đường type 2'
+                            }
+                        }
+                    }
+                ];
+
+                currentReviews = mockReviews;
+                renderReviews(currentReviews);
+            } catch (error) {
+                console.error('Failed to load review queue:', error);
+                document.getElementById('reviewQueue').innerHTML = 
+                    '<div class="error">❌ Không thể tải hàng đợi xem xét. Vui lòng thử lại.</div>';
+            }
+        }
+
+        function renderReviews(reviews) {
+            const container = document.getElementById('reviewQueue');
+            
+            if (reviews.length === 0) {
+                container.innerHTML = '<div class="loading">📭 Không có dự đoán nào cần xem xét.</div>';
+                return;
+            }
+
+            const html = reviews.map(review => {
+                const prediction = review.ai_predictions_validated;
+                const timeAgo = getTimeAgo(new Date(prediction.created_at));
+                
+                return `
+                    <div class="review-item ${review.priority}">
+                        <div class="review-header">
+                            <div class="disease-info">
+                                <strong>${prediction.prediction_data.diseaseName}</strong> (${prediction.disease_code})
+                            </div>
+                            <span class="priority-badge priority-${review.priority}">${getPriorityLabel(review.priority)}</span>
+                        </div>
+                        
+                        <div class="symptoms-list">
+                            <strong>Triệu chứng:</strong> ${prediction.symptoms.join(', ')}
+                        </div>
+                        
+                        <div style="margin: 0.5rem 0;">
+                            <span class="risk-indicator risk-${prediction.risk_level}">
+                                Nguy cơ: ${getRiskLabel(prediction.risk_level)} (${prediction.prediction_data.flareUpProbability}%)
+                            </span>
+                            ${prediction.requires_immediate_care ? '<span class="risk-indicator risk-critical">🚨 Cần chăm sóc khẩn cấp</span>' : ''}
+                        </div>
+                        
+                        <div style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">
+                            📅 Tạo: ${timeAgo}
+                        </div>
+                        
+                        <div class="review-actions">
+                            <button class="review-btn btn-approve" onclick="quickApprove('${review.id}')">✅ Phê duyệt</button>
+                            <button class="review-btn btn-reject" onclick="quickReject('${review.id}')">❌ Từ chối</button>
+                            <button class="review-btn btn-modify" onclick="openReviewModal('${review.id}')">✏️ Xem xét chi tiết</button>
+                            <button class="review-btn btn-details" onclick="showPredictionDetails('${review.id}')">👁️ Chi tiết</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = html;
+        }
+
+        function filterReviews() {
+            let filtered = currentReviews;
+            
+            if (currentFilter !== 'all') {
+                filtered = currentReviews.filter(review => review.priority === currentFilter);
+            }
+            
+            renderReviews(filtered);
+        }
+
+        function openReviewModal(reviewId) {
+            currentReviewId = reviewId;
+            const review = currentReviews.find(r => r.id === reviewId);
+            
+            if (!review) return;
+            
+            const prediction = review.ai_predictions_validated;
+            
+            document.getElementById('reviewDetails').innerHTML = `
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                    <h4>${prediction.prediction_data.diseaseName} (${prediction.disease_code})</h4>
+                    <p><strong>Triệu chứng:</strong> ${prediction.symptoms.join(', ')}</p>
+                    <p><strong>Nguy cơ:</strong> ${getRiskLabel(prediction.risk_level)} (${prediction.prediction_data.flareUpProbability}%)</p>
+                    <p><strong>Ưu tiên:</strong> ${getPriorityLabel(review.priority)}</p>
+                    ${prediction.requires_immediate_care ? '<p style="color: #dc3545;"><strong>⚠️ Cần chăm sóc khẩn cấp</strong></p>' : ''}
+                </div>
+            `;
+            
+            document.getElementById('reviewModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('reviewModal').style.display = 'none';
+            document.getElementById('reviewForm').reset();
+            currentReviewId = null;
+        }
+
+        async function submitReview() {
+            if (!currentReviewId) return;
+            
+            const decision = document.getElementById('reviewDecision').value;
+            const notes = document.getElementById('reviewNotes').value;
+            const recommendations = document.getElementById('additionalRecommendations').value;
+            
+            try {
+                // Mock API call - replace with real implementation
+                console.log('Submitting review:', {
+                    reviewId: currentReviewId,
+                    decision,
+                    notes,
+                    recommendations
+                });
+                
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Remove reviewed item from queue
+                currentReviews = currentReviews.filter(r => r.id !== currentReviewId);
+                filterReviews();
+                loadStats(); // Refresh stats
+                
+                closeModal();
+                
+                // Show success message
+                showNotification('✅ Đánh giá đã được lưu thành công!', 'success');
+                
+            } catch (error) {
+                console.error('Failed to submit review:', error);
+                showNotification('❌ Không thể lưu đánh giá. Vui lòng thử lại.', 'error');
+            }
+        }
+
+        async function quickApprove(reviewId) {
+            if (confirm('Bạn có chắc chắn muốn phê duyệt dự đoán này?')) {
+                try {
+                    // Mock API call
+                    console.log('Quick approve:', reviewId);
+                    
+                    currentReviews = currentReviews.filter(r => r.id !== reviewId);
+                    filterReviews();
+                    loadStats();
+                    
+                    showNotification('✅ Dự đoán đã được phê duyệt!', 'success');
+                } catch (error) {
+                    showNotification('❌ Không thể phê duyệt. Vui lòng thử lại.', 'error');
+                }
+            }
+        }
+
+        async function quickReject(reviewId) {
+            const reason = prompt('Lý do từ chối (tùy chọn):');
+            if (reason !== null) {
+                try {
+                    // Mock API call
+                    console.log('Quick reject:', reviewId, reason);
+                    
+                    currentReviews = currentReviews.filter(r => r.id !== reviewId);
+                    filterReviews();
+                    loadStats();
+                    
+                    showNotification('❌ Dự đoán đã bị từ chối!', 'success');
+                } catch (error) {
+                    showNotification('❌ Không thể từ chối. Vui lòng thử lại.', 'error');
+                }
+            }
+        }
+
+        function showPredictionDetails(reviewId) {
+            const review = currentReviews.find(r => r.id === reviewId);
+            if (!review) return;
+            
+            const prediction = review.ai_predictions_validated;
+            alert(`Chi tiết dự đoán:\n\nBệnh: ${prediction.prediction_data.diseaseName}\nMã ICD: ${prediction.disease_code}\nTriệu chứng: ${prediction.symptoms.join(', ')}\nNguy cơ: ${prediction.risk_level} (${prediction.prediction_data.flareUpProbability}%)\nCần chăm sóc khẩn cấp: ${prediction.requires_immediate_care ? 'Có' : 'Không'}`);
+        }
+
+        function refreshQueue() {
+            loadReviewQueue();
+            loadStats();
+            showNotification('🔄 Đã làm mới hàng đợi!', 'success');
+        }
+
+        function showKnowledgeBase() {
+            alert('🚧 Tính năng Cơ sở tri thức đang được phát triển...');
+        }
+
+        function showAuditLog() {
+            alert('🚧 Tính năng Nhật ký kiểm toán đang được phát triển...');
+        }
+
+        function showEmergencyProtocols() {
+            alert('🚨 Quy trình khẩn cấp:\n\n1. Đau ngực: Gọi 115 ngay lập tức\n2. Khó thở nghiêm trọng: Gọi 115\n3. Triệu chứng đột quỵ: Gọi 115\n4. Mất ý thức: Gọi 115\n\nLuôn ưu tiên an toàn bệnh nhân!');
+        }
+
+        // Utility functions
+        function getPriorityLabel(priority) {
+            const labels = {
+                urgent: 'Khẩn cấp',
+                high: 'Cao',
+                normal: 'Bình thường',
+                low: 'Thấp'
+            };
+            return labels[priority] || priority;
+        }
+
+        function getRiskLabel(risk) {
+            const labels = {
+                low: 'Thấp',
+                moderate: 'Trung bình',
+                high: 'Cao',
+                critical: 'Nghiêm trọng'
+            };
+            return labels[risk] || risk;
+        }
+
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
+            
+            if (diffMins < 60) return `${diffMins} phút trước`;
+            if (diffHours < 24) return `${diffHours} giờ trước`;
+            return `${diffDays} ngày trước`;
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = type;
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '9999';
+            notification.style.padding = '1rem';
+            notification.style.borderRadius = '6px';
+            notification.style.maxWidth = '300px';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('reviewModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

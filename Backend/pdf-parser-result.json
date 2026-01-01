@@ -1,0 +1,176 @@
+{
+  "success": true,
+  "data": {
+    "type": "medication",
+    "medications": [
+      {
+        "name": "Biosubtyl-II",
+        "dosage": "1.00 Viên, 1 Viên, 2 Viên",
+        "quantity": "1.00",
+        "unit": "Viên",
+        "frequency": "2 lần/ngày",
+        "timing": [],
+        "duration": "7 ngày",
+        "instructions": null
+      },
+      {
+        "name": "Rotundin",
+        "dosage": "6060mg, 1.00 Viên, 1 Viên",
+        "quantity": "1.00",
+        "unit": "Viên",
+        "frequency": "1 lần/ngày",
+        "timing": [],
+        "duration": "7 ngày",
+        "instructions": null
+      },
+      {
+        "name": "Siutamid",
+        "dosage": "10mg, 2ml, 1.00 Ống",
+        "quantity": null,
+        "unit": null,
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null
+      },
+      {
+        "name": "Parazacol",
+        "dosage": "75010mg, 75ml, 1.00 Chai",
+        "quantity": null,
+        "unit": null,
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null
+      },
+      {
+        "name": "Nefopam",
+        "dosage": "20mg, 2ml, 1.00 Ống",
+        "quantity": "1.00",
+        "unit": "Ống",
+        "frequency": null,
+        "timing": [
+          "sáng",
+          "chiều"
+        ],
+        "duration": null,
+        "instructions": null
+      },
+      {
+        "name": "Atorpa",
+        "dosage": "1040mg, 10mg, 1.00 Viên",
+        "quantity": "1.00",
+        "unit": "Viên",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null
+      },
+      {
+        "name": "Exforge",
+        "dosage": "5mg, 80mg, 1.00 Viên",
+        "quantity": "1.00",
+        "unit": "Viên",
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null
+      },
+      {
+        "name": "Topraz",
+        "dosage": "2020mg, 2.00 Viên, 2 Viên",
+        "quantity": "2.00",
+        "unit": "Viên",
+        "frequency": "1 lần/ngày",
+        "timing": [],
+        "duration": "7 ngày",
+        "instructions": null
+      },
+      {
+        "name": "Kernadol",
+        "dosage": "650mg, 1 Viên, 4 Viên",
+        "quantity": null,
+        "unit": null,
+        "frequency": "4 lần/ngày",
+        "timing": [],
+        "duration": "7 ngày",
+        "instructions": null
+      },
+      {
+        "name": "Katrypsin",
+        "dosage": "1 Viên, 3 Viên",
+        "quantity": null,
+        "unit": null,
+        "frequency": "3 lần/ngày",
+        "timing": [],
+        "duration": "7 ngày",
+        "instructions": null
+      },
+      {
+        "name": "Amiparen",
+        "dosage": "200ml, 2.00 Chai, 1.00 Chai",
+        "quantity": null,
+        "unit": null,
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null
+      },
+      {
+        "name": "Naptogast",
+        "dosage": "2020mg, 2.00 Viên",
+        "quantity": null,
+        "unit": null,
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null
+      },
+      {
+        "name": "Kalium",
+        "dosage": "500mg, 1.00 Viên",
+        "quantity": null,
+        "unit": null,
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null
+      },
+      {
+        "name": "Zolifast",
+        "dosage": "20002g, 1.00 Lọ, 8g",
+        "quantity": null,
+        "unit": null,
+        "frequency": null,
+        "timing": [],
+        "duration": null,
+        "instructions": null
+      }
+    ],
+    "appointments": [
+      {
+        "date": "2025-12-30",
+        "time": "08:00",
+        "type": "Tái khám ngày",
+        "notes": "Tái khám đúng thời gian và ngày theo,quy định bác sĩ"
+      },
+      {
+        "date": null,
+        "time": null,
+        "type": "Tái khám chuyên khoa",
+        "notes": "Vui lòng lĩnh thuốc BHYT trong ngày.\nĐề nghị ngưng sử dụng thuốc và báo ngay cho bác sỹ nếu có bất kỳ triệu chứng bất thường nào.\nĐơn thuốc này chỉ có giá trị trong thời gian bác sỹ chỉ định, không tự ý sử dụng thêm..\nTái khám vui lòng mang theo đơn thuốc và kết quả xét nghiệm, X quang, Siêu âm...."
+      }
+    ],
+    "instructions": [
+      "Uống thuốc theo toa, hết thuốc tái khám, thay băng hàng ngày, cắt chỉ sau 7 ngày"
+    ],
+    "summary": "Tìm thấy 14 loại thuốc, 2 lịch khám, 1 lời dặn"
+  },
+  "stats": {
+    "processingTime": 708,
+    "totalItems": 885,
+    "medicationCount": 14,
+    "appointmentCount": 2,
+    "instructionCount": 1
+  }
+}

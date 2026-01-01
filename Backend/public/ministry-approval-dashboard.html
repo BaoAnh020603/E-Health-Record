@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministry of Health Approval Dashboard - Hệ thống Phê duyệt Y tế</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-bottom: 3px solid #2a5298;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .ministry-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 0.3rem;
+        }
+
+        .header-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .user-info {
+            text-align: right;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .stats-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stats-icon.pending { background: linear-gradient(135deg, #ff9800, #f57c00); }
+        .stats-icon.approved { background: linear-gradient(135deg, #4caf50, #388e3c); }
+        .stats-icon.rejected { background: linear-gradient(135deg, #f44336, #d32f2f); }
+
+        .stats-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .approval-queue {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .queue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .queue-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab.active {
+            background: #2a5298;
+            color: white;
+            border-color: #2a5298;
+        }
+
+        .filter-tab:hover:not(.active) {
+            border-color: #2a5298;
+            color: #2a5298;
+        }
+
+        .approval-item {
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .approval-item:hover {
+            border-color: #2a5298;
+            box-shadow: 0 4px 16px rgba(42, 82, 152, 0.1);
+        }
+
+        .approval-item.high-priority {
+            border-left: 6px solid #ff5722;
+        }
+
+        .approval-item.medium-priority {
+            border-left: 6px solid #ff9800;
+        }
+
+        .approval-item.low-priority {
+            border-left: 6px solid #4caf50;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .priority-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .priority-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .priority-low {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .item-details {
+            margin-bottom: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-approve {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-approve:hover {
+            background: #45a049;
+            transform: translateY(-1px);
+        }
+
+        .btn-reject {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background: #da190b;
+            transform: translateY(-1px);
+        }
+
+        .btn-review {
+            background: #2196f3;
+            color: white;
+        }
+
+        .btn-review:hover {
+            background: #1976d2;
+            transform: translateY(-1px);
+        }
+
+        .btn-details {
+            background: #9e9e9e;
+            color: white;
+        }
+
+        .btn-details:hover {
+            background: #757575;
+            transform: translateY(-1px);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .quick-actions {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-action-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(42, 82, 152, 0.3);
+        }
+
+        .quick-action-btn.secondary {
+            background: linear-gradient(135deg, #6c757d, #495057);
+        }
+
+        .quick-action-btn.danger {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+
+        .recent-activity {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .activity-icon.approved { background: #4caf50; }
+        .activity-icon.rejected { background: #f44336; }
+        .activity-icon.pending { background: #ff9800; }
+
+        .activity-text {
+            flex: 1;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 3% auto;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .approval-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .error {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #f44336;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            color: #2e7d32;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4caf50;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="ministry-logo">🏛️</div>
+                <div>
+                    <h1 class="header-title">Ministry of Health Approval Dashboard</h1>
+                    <p class="header-subtitle">Hệ thống Phê duyệt Y tế - Quản lý Chất lượng AI Y tế</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <div><strong>Dr. Nguyễn Văn A</strong></div>
+                <div>Cục Quản lý Y tế</div>
+                <div>Phiên làm việc: 09:00 - 17:00</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            <div class="stats-card">
+                <div class="stats-header">
+                    <div class="stats-icon pending">⏳</div>
+                    <div class="stats-title">Chờ Phê duyệt</div>
+                </div>
+                <div class="stats-number" id="pendingCount">24</div>
+                <div class="stats-description">Yêu cầu phê duyệt mới</div>
+            </div>
+
+            <div class="stats-card">
+                <div class="stats-header">
+                    <div class="stats-icon approved">✅</div>
+                    <div class="stats-title">Đã Phê duyệt</div>
+                </div>
+                <div class="stats-number" id="approvedCount">156</div>
+                <div class="stats-description">Trong tháng này</div>
+            </div>
+
+            <div class="stats-card">
+                <div class="stats-header">
+                    <div class="stats-icon rejected">❌</div>
+                    <div class="stats-title">Đã Từ chối</div>
+                </div>
+                <div class="stats-number" id="rejectedCount">8</div>
+                <div class="stats-description">Cần xem xét lại</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="approval-queue">
+                <div class="queue-header">
+                    <h3 class="queue-title">📋 Hàng đợi Phê duyệt</h3>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">Tất cả</button>
+                        <button class="filter-tab" data-filter="ai_models">Mô hình AI</button>
+                        <button class="filter-tab" data-filter="clinical_rules">Quy tắc Lâm sàng</button>
+                        <button class="filter-tab" data-filter="protocols">Quy trình</button>
+                    </div>
+                </div>
+
+                <div id="approvalQueue">
+                    <div class="approval-item high-priority">
+                        <div class="item-header">
+                            <div class="item-title">🤖 Mô hình AI Dự đoán Đái tháo đường Type 2</div>
+                            <span class="priority-badge priority-high">Ưu tiên cao</span>
+                        </div>
+                        <div class="item-details">
+                            Mô hình AI sử dụng machine learning để dự đoán nguy cơ phát triển đái tháo đường type 2 dựa trên các yếu tố nguy cơ và dữ liệu lâm sàng. Độ chính xác: 94.2%, Sensitivity: 91.8%, Specificity: 96.1%.
+                        </div>
+                        <div class="item-meta">
+                            <span>📅 Nộp: 15/12/2024</span>
+                            <span>🏥 Bệnh viện Đại học Y Hà Nội</span>
+                            <span>👨‍⚕️ TS. Trần Văn B</span>
+                        </div>
+                        <div class="item-actions">
+                            <button class="action-btn btn-approve" onclick="quickApprove('ai_model_1')">✅ Phê duyệt</button>
+                            <button class="action-btn btn-reject" onclick="quickReject('ai_model_1')">❌ Từ chối</button>
+                            <button class="action-btn btn-review" onclick="openReviewModal('ai_model_1')">📝 Xem xét chi tiết</button>
+                            <button class="action-btn btn-details" onclick="showDetails('ai_model_1')">👁️ Chi tiết</button>
+                        </div>
+                    </div>
+
+                    <div class="approval-item medium-priority">
+                        <div class="item-header">
+                            <div class="item-title">📋 Quy tắc Lâm sàng - Quản lý Hen phế quản</div>
+                            <span class="priority-badge priority-medium">Ưu tiên trung bình</span>
+                        </div>
+                        <div class="item-details">
+                            Bộ quy tắc lâm sàng cập nhật cho việc chẩn đoán và điều trị hen phế quản theo hướng dẫn GINA 2024. Bao gồm các tiêu chí chẩn đoán, phân độ nặng, và phác đồ điều trị theo từng giai đoạn.
+                        </div>
+                        <div class="item-meta">
+                            <span>📅 Nộp: 18/12/2024</span>
+                            <span>🏥 Viện Phổi Trung ương</span>
+                            <span>👨‍⚕️ PGS. Lê Thị C</span>
+                        </div>
+                        <div class="item-actions">
+                            <button class="action-btn btn-approve" onclick="quickApprove('clinical_rule_1')">✅ Phê duyệt</button>
+                            <button class="action-btn btn-reject" onclick="quickReject('clinical_rule_1')">❌ Từ chối</button>
+                            <button class="action-btn btn-review" onclick="openReviewModal('clinical_rule_1')">📝 Xem xét chi tiết</button>
+                            <button class="action-btn btn-details" onclick="showDetails('clinical_rule_1')">👁️ Chi tiết</button>
+                        </div>
+                    </div>
+
+                    <div class="approval-item low-priority">
+                        <div class="item-header">
+                            <div class="item-title">🚨 Quy trình Cấp cứu Tim mạch</div>
+                            <span class="priority-badge priority-low">Ưu tiên thấp</span>
+                        </div>
+                        <div class="item-details">
+                            Cập nhật quy trình cấp cứu cho các trường hợp nhồi máu cơ tim cấp và đột quỵ não. Bao gồm các bước chẩn đoán nhanh, thời gian vàng, và phối hợp liên khoa.
+                        </div>
+                        <div class="item-meta">
+                            <span>📅 Nộp: 20/12/2024</span>
+                            <span>🏥 Bệnh viện Tim Hà Nội</span>
+                            <span>👨‍⚕️ GS. Phạm Văn D</span>
+                        </div>
+                        <div class="item-actions">
+                            <button class="action-btn btn-approve" onclick="quickApprove('protocol_1')">✅ Phê duyệt</button>
+                            <button class="action-btn btn-reject" onclick="quickReject('protocol_1')">❌ Từ chối</button>
+                            <button class="action-btn btn-review" onclick="openReviewModal('protocol_1')">📝 Xem xét chi tiết</button>
+                            <button class="action-btn btn-details" onclick="showDetails('protocol_1')">👁️ Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="quick-actions">
+                    <h3 class="sidebar-title">⚡ Thao tác nhanh</h3>
+                    <button class="quick-action-btn" onclick="refreshQueue()">🔄 Làm mới hàng đợi</button>
+                    <button class="quick-action-btn" onclick="exportReport()">📊 Xuất báo cáo</button>
+                    <button class="quick-action-btn secondary" onclick="viewStatistics()">📈 Thống kê chi tiết</button>
+                    <button class="quick-action-btn secondary" onclick="manageReviewers()">👥 Quản lý Reviewer</button>
+                    <button class="quick-action-btn danger" onclick="emergencyOverride()">🚨 Phê duyệt Khẩn cấp</button>
+                </div>
+
+                <div class="recent-activity">
+                    <h3 class="sidebar-title">📈 Hoạt động gần đây</h3>
+                    <div class="activity-item">
+                        <div class="activity-icon approved">✓</div>
+                        <div class="activity-text">Phê duyệt mô hình AI chẩn đoán X-quang phổi</div>
+                        <div class="activity-time">2h trước</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon rejected">✗</div>
+                        <div class="activity-text">Từ chối quy tắc điều trị kháng sinh</div>
+                        <div class="activity-time">4h trước</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon pending">⏳</div>
+                        <div class="activity-text">Nhận yêu cầu mới từ BV Chợ Rẫy</div>
+                        <div class="activity-time">6h trước</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon approved">✓</div>
+                        <div class="activity-text">Phê duyệt quy trình cấp cứu nhi khoa</div>
+                        <div class="activity-time">1 ngày trước</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📝 Xem xét chi tiết</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <div id="reviewDetails"></div>
+            
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label class="form-label">Quyết định phê duyệt:</label>
+                    <select class="form-control" id="approvalDecision" required>
+                        <option value="">Chọn quyết định...</option>
+                        <option value="approved">Phê duyệt hoàn toàn</option>
+                        <option value="approved_with_conditions">Phê duyệt có điều kiện</option>
+                        <option value="rejected">Từ chối</option>
+                        <option value="needs_revision">Yêu cầu chỉnh sửa</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Ý kiến chuyên môn:</label>
+                    <textarea class="form-control" id="professionalOpinion" placeholder="Nhập ý kiến chi tiết về quyết định phê duyệt..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Điều kiện áp dụng (nếu có):</label>
+                    <textarea class="form-control" id="conditions" placeholder="Các điều kiện, hạn chế hoặc yêu cầu bổ sung..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Thời hạn hiệu lực:</label>
+                    <select class="form-control" id="validityPeriod">
+                        <option value="1_year">1 năm</option>
+                        <option value="2_years">2 năm</option>
+                        <option value="3_years">3 năm</option>
+                        <option value="5_years">5 năm</option>
+                        <option value="indefinite">Không thời hạn</option>
+                    </select>
+                </div>
+                
+                <div class="approval-actions">
+                    <button type="submit" class="action-btn btn-approve">💾 Lưu quyết định</button>
+                    <button type="button" class="action-btn btn-details" onclick="closeModal()">❌ Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentItems = [];
+        let currentFilter = 'all';
+        let currentReviewId = null;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadApprovalQueue();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Filter tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    filterItems();
+                });
+            });
+
+            // Review form submission
+            document.getElementById('reviewForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitApprovalDecision();
+            });
+        }
+
+        async function loadStats() {
+            try {
+                // Mock stats for demo
+                const stats = {
+                    pendingCount: 24,
+                    approvedCount: 156,
+                    rejectedCount: 8
+                };
+
+                document.getElementById('pendingCount').textContent = stats.pendingCount;
+                document.getElementById('approvedCount').textContent = stats.approvedCount;
+                document.getElementById('rejectedCount').textContent = stats.rejectedCount;
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        async function loadApprovalQueue() {
+            try {
+                // Mock data for demo
+                currentItems = [
+                    {
+                        id: 'ai_model_1',
+                        type: 'ai_models',
+                        title: '🤖 Mô hình AI Dự đoán Đái tháo đường Type 2',
+                        priority: 'high',
+                        description: 'Mô hình AI sử dụng machine learning để dự đoán nguy cơ phát triển đái tháo đường type 2...',
+                        submittedDate: '15/12/2024',
+                        hospital: 'Bệnh viện Đại học Y Hà Nội',
+                        doctor: 'TS. Trần Văn B'
+                    },
+                    {
+                        id: 'clinical_rule_1',
+                        type: 'clinical_rules',
+                        title: '📋 Quy tắc Lâm sàng - Quản lý Hen phế quản',
+                        priority: 'medium',
+                        description: 'Bộ quy tắc lâm sàng cập nhật cho việc chẩn đoán và điều trị hen phế quản...',
+                        submittedDate: '18/12/2024',
+                        hospital: 'Viện Phổi Trung ương',
+                        doctor: 'PGS. Lê Thị C'
+                    },
+                    {
+                        id: 'protocol_1',
+                        type: 'protocols',
+                        title: '🚨 Quy trình Cấp cứu Tim mạch',
+                        priority: 'low',
+                        description: 'Cập nhật quy trình cấp cứu cho các trường hợp nhồi máu cơ tim cấp...',
+                        submittedDate: '20/12/2024',
+                        hospital: 'Bệnh viện Tim Hà Nội',
+                        doctor: 'GS. Phạm Văn D'
+                    }
+                ];
+
+                renderItems(currentItems);
+            } catch (error) {
+                console.error('Failed to load approval queue:', error);
+            }
+        }
+
+        function renderItems(items) {
+            const container = document.getElementById('approvalQueue');
+            
+            if (items.length === 0) {
+                container.innerHTML = '<div class="loading">📭 Không có yêu cầu phê duyệt nào.</div>';
+                return;
+            }
+
+            const html = items.map(item => `
+                <div class="approval-item ${item.priority}-priority">
+                    <div class="item-header">
+                        <div class="item-title">${item.title}</div>
+                        <span class="priority-badge priority-${item.priority}">
+                            ${item.priority === 'high' ? 'Ưu tiên cao' : 
+                              item.priority === 'medium' ? 'Ưu tiên trung bình' : 'Ưu tiên thấp'}
+                        </span>
+                    </div>
+                    <div class="item-details">${item.description}</div>
+                    <div class="item-meta">
+                        <span>📅 Nộp: ${item.submittedDate}</span>
+                        <span>🏥 ${item.hospital}</span>
+                        <span>👨‍⚕️ ${item.doctor}</span>
+                    </div>
+                    <div class="item-actions">
+                        <button class="action-btn btn-approve" onclick="quickApprove('${item.id}')">✅ Phê duyệt</button>
+                        <button class="action-btn btn-reject" onclick="quickReject('${item.id}')">❌ Từ chối</button>
+                        <button class="action-btn btn-review" onclick="openReviewModal('${item.id}')">📝 Xem xét chi tiết</button>
+                        <button class="action-btn btn-details" onclick="showDetails('${item.id}')">👁️ Chi tiết</button>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = html;
+        }
+
+        function filterItems() {
+            let filtered = currentItems;
+            
+            if (currentFilter !== 'all') {
+                filtered = currentItems.filter(item => item.type === currentFilter);
+            }
+            
+            renderItems(filtered);
+        }
+
+        function openReviewModal(itemId) {
+            currentReviewId = itemId;
+            const item = currentItems.find(i => i.id === itemId);
+            
+            if (!item) return;
+            
+            document.getElementById('reviewDetails').innerHTML = `
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <h4>${item.title}</h4>
+                    <p><strong>Mô tả:</strong> ${item.description}</p>
+                    <p><strong>Nộp bởi:</strong> ${item.doctor} - ${item.hospital}</p>
+                    <p><strong>Ngày nộp:</strong> ${item.submittedDate}</p>
+                    <p><strong>Mức độ ưu tiên:</strong> ${item.priority === 'high' ? 'Cao' : item.priority === 'medium' ? 'Trung bình' : 'Thấp'}</p>
+                </div>
+            `;
+            
+            document.getElementById('reviewModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('reviewModal').style.display = 'none';
+            document.getElementById('reviewForm').reset();
+            currentReviewId = null;
+        }
+
+        async function submitApprovalDecision() {
+            if (!currentReviewId) return;
+            
+            const decision = document.getElementById('approvalDecision').value;
+            const opinion = document.getElementById('professionalOpinion').value;
+            const conditions = document.getElementById('conditions').value;
+            const validity = document.getElementById('validityPeriod').value;
+            
+            try {
+                // Mock API call
+                console.log('Submitting approval decision:', {
+                    itemId: currentReviewId,
+                    decision,
+                    opinion,
+                    conditions,
+                    validity
+                });
+                
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Remove item from queue
+                currentItems = currentItems.filter(i => i.id !== currentReviewId);
+                filterItems();
+                loadStats(); // Refresh stats
+                
+                closeModal();
+                
+                // Show success message
+                showNotification('✅ Quyết định phê duyệt đã được lưu thành công!', 'success');
+                
+            } catch (error) {
+                console.error('Failed to submit approval decision:', error);
+                showNotification('❌ Không thể lưu quyết định. Vui lòng thử lại.', 'error');
+            }
+        }
+
+        async function quickApprove(itemId) {
+            if (confirm('Bạn có chắc chắn muốn phê duyệt yêu cầu này?')) {
+                try {
+                    console.log('Quick approve:', itemId);
+                    
+                    currentItems = currentItems.filter(i => i.id !== itemId);
+                    filterItems();
+                    loadStats();
+                    
+                    showNotification('✅ Yêu cầu đã được phê duyệt!', 'success');
+                } catch (error) {
+                    showNotification('❌ Không thể phê duyệt. Vui lòng thử lại.', 'error');
+                }
+            }
+        }
+
+        async function quickReject(itemId) {
+            const reason = prompt('Lý do từ chối (bắt buộc):');
+            if (reason && reason.trim()) {
+                try {
+                    console.log('Quick reject:', itemId, reason);
+                    
+                    currentItems = currentItems.filter(i => i.id !== itemId);
+                    filterItems();
+                    loadStats();
+                    
+                    showNotification('❌ Yêu cầu đã bị từ chối!', 'success');
+                } catch (error) {
+                    showNotification('❌ Không thể từ chối. Vui lòng thử lại.', 'error');
+                }
+            }
+        }
+
+        function showDetails(itemId) {
+            const item = currentItems.find(i => i.id === itemId);
+            if (!item) return;
+            
+            alert(`Chi tiết yêu cầu:\n\nTiêu đề: ${item.title}\nMô tả: ${item.description}\nBệnh viện: ${item.hospital}\nBác sĩ: ${item.doctor}\nNgày nộp: ${item.submittedDate}\nMức độ ưu tiên: ${item.priority}`);
+        }
+
+        function refreshQueue() {
+            loadApprovalQueue();
+            loadStats();
+            showNotification('🔄 Đã làm mới hàng đợi!', 'success');
+        }
+
+        function exportReport() {
+            showNotification('📊 Đang xuất báo cáo...', 'success');
+            // Mock export functionality
+            setTimeout(() => {
+                showNotification('📊 Báo cáo đã được xuất thành công!', 'success');
+            }, 2000);
+        }
+
+        function viewStatistics() {
+            alert('📈 Tính năng thống kê chi tiết đang được phát triển...');
+        }
+
+        function manageReviewers() {
+            alert('👥 Tính năng quản lý reviewer đang được phát triển...');
+        }
+
+        function emergencyOverride() {
+            if (confirm('⚠️ Bạn có chắc chắn muốn sử dụng quyền phê duyệt khẩn cấp?\n\nHành động này sẽ được ghi lại trong nhật ký kiểm toán.')) {
+                alert('🚨 Chế độ phê duyệt khẩn cấp đã được kích hoạt!');
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = type;
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '9999';
+            notification.style.padding = '1rem 1.5rem';
+            notification.style.borderRadius = '8px';
+            notification.style.maxWidth = '400px';
+            notification.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('reviewModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
