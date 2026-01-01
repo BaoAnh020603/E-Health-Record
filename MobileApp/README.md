@@ -1,152 +1,284 @@
-# Medical Records Mobile App
+# 📱 Medical Records Mobile App
 
-A React Native mobile application built with Expo for managing medical records, connecting to a Supabase backend.
+Ứng dụng di động quản lý hồ sơ y tế thông minh với AI, OCR và nhắc nhở uống thuốc tự động.
 
-## Features
+## 📋 Tổng quan
 
-### Authentication
-- **CCCD-based Registration**: Register using Vietnamese Citizen ID (CCCD)
-- **Secure Login**: Login with CCCD and password
-- **Profile Management**: Update personal information and BHYT details
+Ứng dụng mobile được xây dựng bằng React Native (Expo) cung cấp:
+- 📄 Quản lý hồ sơ y tế cá nhân
+- 🤖 Trợ lý y tế AI thông minh
+- 📸 OCR đơn thuốc và hồ sơ y tế
+- 💊 Nhắc nhở uống thuốc tự động
+- 🔍 Dự đoán bệnh từ triệu chứng
+- 📚 Giải thích thuật ngữ y tế
+- 🔐 Xác thực an toàn với Google OAuth
+- 📊 Phân tích lịch sử bệnh án
+- 🔗 Chia sẻ hồ sơ qua QR Code
 
-### Medical Records Management
-- **Create Records**: Add new medical examination records
-- **View Records**: Browse and search through medical history
-- **Record Details**: View comprehensive information about each medical visit
-- **File Attachments**: Upload and manage medical documents, test results, and images
+## 🚀 Công nghệ sử dụng
 
-### Sharing & QR Code
-- **Share Tokens**: Create secure sharing tokens for medical records
-- **QR Code Generation**: Generate QR codes for easy sharing with healthcare providers
-- **QR Code Scanner**: Scan QR codes to access shared medical records
-- **Access Control**: Manage sharing permissions and expiration times
+- **Framework**: React Native + Expo SDK 54
+- **Language**: TypeScript
+- **Navigation**: React Navigation (Stack + Bottom Tabs)
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth + Google OAuth
+- **State Management**: React Hooks
+- **UI Components**: Custom components với Expo Vector Icons
+- **Notifications**: Expo Notifications
+- **File Handling**: Expo Document Picker, Image Picker, File System
+- **QR Code**: react-native-qrcode-svg
 
-### User Interface
-- **Modern Design**: Clean, intuitive interface optimized for mobile
-- **Vietnamese Language**: Full Vietnamese language support
-- **Dark/Light Theme**: Responsive design with proper color schemes
-- **Navigation**: Bottom tab navigation with stack navigation for details
+## 📦 Cài đặt
 
-## Tech Stack
+### Yêu cầu hệ thống
+- Node.js >= 16.x
+- npm hoặc yarn
+- Expo CLI
+- iOS Simulator (Mac) hoặc Android Emulator
+- Expo Go app (cho testing trên thiết bị thật)
 
-- **Framework**: React Native with Expo
-- **Navigation**: React Navigation v6
-- **Backend**: Supabase (PostgreSQL, Authentication, Storage)
-- **UI Components**: React Native Paper, Expo Vector Icons
-- **Camera**: Expo Camera, Expo Barcode Scanner
-- **File Handling**: Expo Image Picker, Expo Document Picker, Expo File System
+### Các bước cài đặt
 
-## Installation
+1. **Di chuyển vào thư mục MobileApp**
+```bash
+cd MobileApp
+```
 
-1. **Prerequisites**:
-   ```bash
-   npm install -g @expo/cli
-   ```
+2. **Cài đặt dependencies**
+```bash
+npm install
+```
 
-2. **Install Dependencies**:
-   ```bash
-   cd MobileApp
-   npm install
-   ```
+3. **Cấu hình Supabase**
 
-3. **Start Development Server**:
-   ```bash
-   npm start
-   ```
+Tạo file `config.ts` với thông tin Supabase của bạn:
+```typescript
+export const SUPABASE_URL = 'your_supabase_url'
+export const SUPABASE_ANON_KEY = 'your_supabase_anon_key'
+export const BACKEND_URL = 'http://192.168.1.172:3001'
+```
 
-4. **Run on Device**:
-   - Install Expo Go app on your mobile device
-   - Scan the QR code from the terminal
-   - Or use `npm run android` / `npm run ios` for simulators
+4. **Khởi động ứng dụng**
 
-## Configuration
+```bash
+# Khởi động Expo development server
+npm start
 
-The app is pre-configured to connect to your Supabase backend:
-- **Supabase URL**: `https://aadydqifnwrcbjtxanje.supabase.co`
-- **Anon Key**: Configured in `lib/supabase.ts`
+# Chạy trên Android
+npm run android
 
-## Project Structure
+# Chạy trên iOS (chỉ Mac)
+npm run ios
+
+# Chạy trên web
+npm run web
+```
+
+## 📱 Tính năng chính
+
+### 🏠 Màn hình chính (Home)
+- Dashboard tổng quan
+- Thống kê hồ sơ y tế
+- Truy cập nhanh các tính năng
+
+### 📄 Quản lý hồ sơ y tế
+- **Tạo hồ sơ mới**: Nhập thông tin hoặc upload file
+- **Xem chi tiết**: Hiển thị đầy đủ thông tin hồ sơ
+- **Chỉnh sửa**: Cập nhật thông tin hồ sơ
+- **Xóa**: Quản lý hồ sơ không cần thiết
+- **OCR**: Quét và trích xuất thông tin từ ảnh/PDF
+
+### 🤖 AI Hub
+- **Trợ lý y tế AI**: Chat với AI về vấn đề sức khỏe
+- **Dự đoán bệnh**: Phân tích triệu chứng và đưa ra dự đoán
+- **Giải thích thuật ngữ**: Hiểu rõ các thuật ngữ y tế phức tạp
+- **Phân tích thông minh**: Đánh giá tổng quan tình trạng sức khỏe
+- **Đánh giá độ tin cậy**: Kiểm tra độ tin cậy thông tin y tế
+
+### 💊 Quản lý thuốc
+- **Phân tích đơn thuốc**: OCR tự động từ ảnh đơn thuốc
+- **Nhắc nhở thông minh**: AI tạo lịch uống thuốc tự động
+- **Danh sách nhắc nhở**: Quản lý tất cả lời nhắc
+- **Thông báo**: Push notification đúng giờ
+
+### 🔗 Chia sẻ & QR Code
+- **Tạo QR Code**: Chia sẻ hồ sơ y tế an toàn
+- **Quét QR**: Nhận hồ sơ từ người khác
+- **Token chia sẻ**: Kiểm soát quyền truy cập
+
+### 👤 Hồ sơ cá nhân
+- Thông tin người dùng
+- Cài đặt ứng dụng
+- Quản lý tài khoản
+- Đăng xuất
+
+## 🗂️ Cấu trúc thư mục
 
 ```
 MobileApp/
-├── lib/
-│   └── supabase.ts          # Supabase client configuration
-├── services/
-│   ├── auth.ts              # Authentication services
-│   ├── medicalRecords.ts    # Medical records CRUD operations
-│   ├── shareToken.ts        # Sharing and QR code services
-│   └── fileUpload.ts        # File upload and management
-├── navigation/
-│   └── AppNavigator.tsx     # Navigation configuration
-├── screens/
+├── assets/                       # Hình ảnh, icons
+│   ├── icon.png
+│   ├── splash-icon.png
+│   └── adaptive-icon.png
+├── components/                   # Reusable components
+│   ├── CustomTabBar.tsx
+│   ├── NotificationBadge.tsx
+│   └── CreateMedicationReminders.tsx
+├── config/                       # Configuration files
+│   └── logging.ts
+├── lib/                          # Core libraries
+│   ├── supabase.ts              # Supabase client
+│   ├── logger.ts                # Logging utility
+│   └── validation.ts            # Input validation
+├── navigation/                   # Navigation setup
+│   └── AppNavigator.tsx
+├── screens/                      # App screens
 │   ├── auth/
-│   │   ├── LoginScreen.tsx
-│   │   └── RegisterScreen.tsx
-│   └── main/
-│       ├── HomeScreen.tsx
-│       ├── MedicalRecordsScreen.tsx
-│       ├── RecordDetailScreen.tsx
-│       ├── CreateRecordScreen.tsx
-│       ├── ProfileScreen.tsx
-│       ├── ShareScreen.tsx
-│       └── QRScannerScreen.tsx
-└── App.tsx                  # Main app component
+│   │   └── LoginScreen.tsx
+│   ├── main/
+│   │   ├── HomeScreen.tsx
+│   │   ├── MedicalRecordsScreen.tsx
+│   │   ├── AIHubScreen.tsx
+│   │   ├── AIMedicalAssistantScreen.tsx
+│   │   ├── DiseasePredictionScreen.tsx
+│   │   ├── MedicalTermExplainerScreen.tsx
+│   │   ├── IntelligentMedicalAnalysisScreen.tsx
+│   │   ├── MedicationRemindersScreen.tsx
+│   │   ├── SmartRemindersScreen.tsx
+│   │   ├── QRCodeDisplayScreen.tsx
+│   │   ├── QRScannerScreen.tsx
+│   │   └── ProfileScreen.tsx
+│   ├── WelcomeScreen.tsx
+│   ├── OCRScanScreen.tsx
+│   ├── PrescriptionUploadScreen.tsx
+│   └── PrescriptionAnalysisScreen.tsx
+├── services/                     # Business logic & API calls
+│   ├── auth.ts                  # Authentication
+│   ├── medicalRecords.ts        # Medical records CRUD
+│   ├── aiMedicalAssistant.ts   # AI chat service
+│   ├── aiCredibilityService.ts # Credibility check
+│   ├── medicalTermExplainer.ts # Term explanation
+│   ├── intelligentMedicalAnalysis.ts
+│   ├── prescriptionOCRService.ts
+│   ├── medicationReminderService.ts
+│   ├── smartReminders.ts
+│   ├── notificationService.ts
+│   ├── qrService.ts
+│   └── shareToken.ts
+├── App.tsx                       # Main app component
+├── app.json                      # Expo configuration
+├── package.json
+└── tsconfig.json
 ```
 
-## Key Features Implementation
+## 🔐 Authentication Flow
 
-### Authentication Flow
-- CCCD-based registration with profile creation
-- Secure login with session management
-- Automatic navigation based on authentication state
+1. **Welcome Screen**: Màn hình chào mừng
+2. **Login Screen**: Đăng nhập với Google OAuth
+3. **Profile Setup**: Thiết lập thông tin cá nhân (lần đầu)
+4. **Main App**: Truy cập đầy đủ tính năng
 
-### Medical Records
-- Full CRUD operations for medical records
-- Search and filter functionality
-- File attachment support with cloud storage
-- Offline-ready data structure
+## 📸 Screenshots
 
-### Sharing System
-- Secure token-based sharing
-- QR code generation and scanning
-- Time-limited access control
-- Access logging and management
+[Thêm screenshots của ứng dụng]
 
-### Mobile-Optimized Features
-- Camera integration for document scanning
-- File picker for medical documents
-- Responsive design for various screen sizes
-- Native navigation patterns
+## 🧪 Testing
 
-## Backend Integration
+```bash
+# Test authentication
+node test-auth.js
 
-The app integrates with your existing Supabase backend:
-- **Database**: Uses the same PostgreSQL schema
-- **Authentication**: Supabase Auth with custom CCCD logic
-- **Storage**: Supabase Storage for medical documents
-- **Edge Functions**: Integrates with sharing and validation functions
+# Test Google OAuth
+node test-google-oauth.js
 
-## Security Features
+# Test file access
+node test-file-access.js
 
-- **Row Level Security**: All data access is user-scoped
-- **Secure File Storage**: Medical documents stored with proper access controls
-- **Token-based Sharing**: Time-limited, revocable sharing tokens
-- **Input Validation**: Comprehensive client-side and server-side validation
+# Test medication tables
+node test-medication-tables.js
 
-## Development
+# Test personalized AI
+node test-personalized-ai.js
+```
 
-### Adding New Features
-1. Create service functions in `services/`
-2. Add screens in `screens/`
-3. Update navigation in `navigation/AppNavigator.tsx`
-4. Test on both iOS and Android
+## 🔧 Scripts hữu ích
 
-### Debugging
-- Use Expo DevTools for debugging
-- Check network requests in Flipper or browser dev tools
-- Use React Native Debugger for advanced debugging
+```bash
+# Khởi động với port 8081
+start-port-8081.bat
 
-## Deployment
+# Fix pending files
+node fix-pending-files.js
+```
+
+## 📊 Database Schema
+
+Ứng dụng sử dụng Supabase với các bảng chính:
+- `profiles`: Thông tin người dùng
+- `medical_records`: Hồ sơ y tế
+- `medications`: Danh sách thuốc
+- `medication_reminders`: Lịch nhắc nhở
+- `share_tokens`: Token chia sẻ hồ sơ
+
+## 🔔 Push Notifications
+
+Ứng dụng sử dụng Expo Notifications để:
+- Nhắc nhở uống thuốc đúng giờ
+- Thông báo kết quả phân tích
+- Cảnh báo sức khỏe quan trọng
+
+### Cấu hình notifications:
+```typescript
+// Đăng ký nhận notifications
+await Notifications.requestPermissionsAsync()
+
+// Lên lịch notification
+await Notifications.scheduleNotificationAsync({
+  content: {
+    title: "Nhắc nhở uống thuốc",
+    body: "Đã đến giờ uống thuốc..."
+  },
+  trigger: { hour: 8, minute: 0, repeats: true }
+})
+```
+
+## 🌐 API Integration
+
+Ứng dụng kết nối với Backend API:
+
+```typescript
+const BACKEND_URL = 'http://192.168.1.172:3001'
+
+// Example API call
+const response = await fetch(`${BACKEND_URL}/api/ai-simplify`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ user_id, medical_text })
+})
+```
+
+## 🎨 Theming & Styling
+
+- Custom color scheme cho medical app
+- Responsive design cho mọi kích thước màn hình
+- Dark mode support (coming soon)
+
+## 🔒 Bảo mật
+
+- ✅ OAuth 2.0 với Google
+- ✅ Secure token storage với AsyncStorage
+- ✅ HTTPS cho production
+- ✅ Input validation
+- ✅ Secure file handling
+- ✅ Session management
+
+## 📱 Platform Support
+
+- ✅ iOS (iPhone & iPad)
+- ✅ Android
+- ✅ Web (limited features)
+
+## 🚀 Build & Deploy
 
 ### Development Build
 ```bash
@@ -154,24 +286,40 @@ expo build:android
 expo build:ios
 ```
 
-### Production Build
+### EAS Build (Recommended)
 ```bash
-expo build:android --type app-bundle
-expo build:ios --type archive
+eas build --platform android
+eas build --platform ios
 ```
 
-## Contributing
+### Submit to Stores
+```bash
+eas submit --platform android
+eas submit --platform ios
+```
 
-1. Follow React Native and Expo best practices
-2. Maintain TypeScript strict mode
-3. Add proper error handling and loading states
-4. Test on both platforms before committing
-5. Keep Vietnamese language consistency
+## 🐛 Troubleshooting
 
-## Support
+### Common Issues:
 
-For issues related to:
-- **Backend**: Check Supabase dashboard and logs
-- **Mobile App**: Use Expo CLI debugging tools
-- **Authentication**: Verify Supabase Auth configuration
-- **File Upload**: Check Supabase Storage permissions
+**1. Metro bundler không khởi động**
+```bash
+npx expo start --clear
+```
+
+**2. Lỗi kết nối Backend**
+- Kiểm tra Backend đang chạy
+- Kiểm tra BACKEND_URL trong config.ts
+- Đảm bảo thiết bị và máy tính cùng mạng
+
+**3. Lỗi OAuth**
+- Kiểm tra redirect URL trong Supabase dashboard
+- Đảm bảo scheme được cấu hình đúng trong app.json
+
+## 📈 Performance
+
+- Lazy loading cho screens
+- Image optimization
+- Efficient re-renders với React.memo
+- Background task handling
+
