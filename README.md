@@ -114,7 +114,7 @@ E-Health-Record/
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/yourusername/E-Health-Record.git
+git clone https://github.com/BaoAnh020603/E-Health-Record.git
 cd E-Health-Record
 ```
 
@@ -381,3 +381,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 
 **⭐ Nếu dự án này hữu ích, hãy cho chúng tôi một star trên GitHub!**
+
